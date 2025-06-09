@@ -1,0 +1,68 @@
+name: "Vprofile IAC - GCP"
+on:
+  push:
+    branches:
+        - main
+        - stage
+    paths:
+        - terraform/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - terraform/**
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+  GCP_REGION: us-central1
+  GKE_CLUSTER: vprofile-gke
+  GCS_BUCKET_TF_STATE: ${{ secrets.GCS_BUCKET_TF_STATE }}
+
+jobs:
+  terraform:
+    name: "Apply terraform code changes"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup GCP Auth
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup GCloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: setup terraform with specified version of the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.3
+
+      - name: terraform init
+        id: init
+        run: terraform init -backend-config="bucket=$GCS_BUCKET_TF_STATE"
+
+      - name: terraform format
+        id: fmt
+        run: terraform fmt -check
+
+      - name: terraform validate
+        id: validate
+        run: terraform validate
+
+      - name: terraform plan
+        id: plan
+        run: terraform plan -no-color -input=false -out planfile
+        continue-on-error: true
+
+      - name: terraform plan status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      
