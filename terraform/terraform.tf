@@ -22,7 +22,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "vprofile-tf-state"  # Replace with your GCS bucket name
+    bucket = "vprofile_tfstate"  # Replace with your GCS bucket name
     prefix = "terraform/state"
   }
 
