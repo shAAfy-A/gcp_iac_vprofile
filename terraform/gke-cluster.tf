@@ -4,7 +4,7 @@ module "gke" {
   project_id       = var.project_id
   name             = local.cluster_name
   region           = var.region
-  node_locations   = var.node_locations
+  #node_locations   = var.node_locations
   network          = module.vpc.network_name
   subnetwork       = module.vpc.subnets["us-central1/gke-subnet"].name
   ip_range_pods    = "pod-range"
