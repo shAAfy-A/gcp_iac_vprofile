@@ -1,8 +1,7 @@
 module "gke" {
-  source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "30.1.0"
-
-  project_id        = var.project_id
+  source           = "terraform-google-modules/kubernetes-engine/google"
+  version          = "30.1.0"
+  project_id       = var.project_id
   name             = local.cluster_name
   region           = var.region
   node_locations   = var.node_locations
@@ -14,17 +13,17 @@ module "gke" {
   node_pools = [
     {
       name               = "node-pool-1"
-      machine_type      = "e2-small"
-      min_count         = 1
-      max_count         = 3
+      machine_type       = "e2-small"
+      min_count          = 1
+      max_count          = 3
       initial_node_count = 2
     },
     {
       name               = "node-pool-2"
-      machine_type      = "e2-small"
-      min_count         = 1
-      max_count         = 2
+      machine_type       = "e2-small"
+      min_count          = 1
+      max_count          = 2
       initial_node_count = 1
-    }
+    },
   ]
 }
