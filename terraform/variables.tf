@@ -1,6 +1,7 @@
 variable "project_id" {
   description = "The GCP Project ID"
   type        = string
+  default     = "savvy-container-461808-s2"
 }
 
 variable "region" {
