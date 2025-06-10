@@ -6,6 +6,7 @@ output "cluster_name" {
 output "cluster_endpoint" {
   description = "Endpoint for GKE cluster"
   value       = module.gke.endpoint
+  sensitive = true
 }
 
 output "region" {
