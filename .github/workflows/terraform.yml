@@ -84,4 +84,4 @@ jobs:
             
       - name: terraform destroy
         id: destroy
-        run: terraform destroy -y
+        run: terraform destroy 
