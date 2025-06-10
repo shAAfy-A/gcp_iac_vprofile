@@ -14,15 +14,15 @@ module "gke" {
     {
       name               = "node-pool-1"
       machine_type       = "e2-small"
-      min_count          = 1
-      max_count          = 3
+      total_min_node_count          = 1
+      total_max_node_count          = 3
       initial_node_count = 2
     },
     {
       name               = "node-pool-2"
       machine_type       = "e2-small"
-      min_count          = 1
-      max_count          = 2
+      total_min_node_count          = 1
+      total_max_node_count          = 2
       initial_node_count = 1
     },
   ]
